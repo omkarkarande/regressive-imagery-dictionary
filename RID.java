@@ -67,7 +67,9 @@ public class RID {
                 return trie;
         }
         //analyze text
-
+        public Result analyzeText(String buffer){
+            
+        }
         /*utility functions*/
         private int tabCount(String line){
                 int count = 0;
