@@ -67,8 +67,17 @@ public class RID {
                 return trie;
         }
         //analyze text
-        public Result analyzeText(String buffer){
-            
+        public Result analyzeText(String buffer, Trie<Category> dictionary){
+            //tokenize text based on whitespaces.
+            String[] tokens = buffer.trim().split(" ");
+            Result result = new Result();
+            for(String token: tokens){
+                Category category = dictionary.search(token);
+                if (category != null){
+                    result.addCategory(category, token);
+                }
+            }
+            return result;
         }
         /*utility functions*/
         private int tabCount(String line){
