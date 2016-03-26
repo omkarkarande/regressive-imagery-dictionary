@@ -20,7 +20,7 @@ public class Result {
         public String toString(){
                 StringBuilder serialized = new StringBuilder("");
                 for (Map.Entry<Category, ArrayList<String> > entry : this.resultTree.entrySet()) {
-                        serialized.append(entry.getKey().toString() + "---\n" + entry.getValue().toString() + "\n\n");
+                        serialized.append(entry.getKey().toString() + "---" + entry.getValue().size() + "\n" + entry.getValue().toString() + "\n\n");
                 }
 
                 return serialized.toString();

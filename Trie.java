@@ -80,9 +80,11 @@ public class Trie<T>{
                 TrieNode<T> parent = ROOT;
                 TrieNode<T> current = ROOT;
                 //loop through all the letter and find the common parent
+                boolean createBranch = false;
                 for (int i = 0; i < pattern.length(); i++) {
                         current = parent.hasChild(pattern.charAt(i));
                         if (current == null) {
+                                createBranch = true;
                                 for (int j = i; j < pattern.length(); j++) {
                                         TrieNode<T> node = new TrieNode<T>(pattern.charAt(j));
                                         parent.addChild(node);
@@ -93,6 +95,12 @@ public class Trie<T>{
                         }else{
                                 parent = current;
                         }
+                }
+
+                if (!createBranch){
+                    if (!parent.isTerminator() || !parent.isLeaf()){
+                        parent.setTerminator(category);
+                    }
                 }
         }
 
