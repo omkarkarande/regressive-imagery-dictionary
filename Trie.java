@@ -116,7 +116,11 @@ public class Trie<T>{
                 if (node.isTerminator() || node.isLeaf()) {
                         return node.getEndpoint();
                 }else{
-                        return null;
+                        if (node.hasChild('*') != null) {
+                                return node.hasChild('*').getEndpoint();
+                        }else{
+                                return null;
+                        }
                 }
         }
 

@@ -1,5 +1,4 @@
 import java.io.*;
-
 public class RID {
         public RID(){
         }
@@ -39,7 +38,6 @@ public class RID {
                                         wordcount++;
                                         // add an item to trie
                                         String pattern = line.trim().split(" ")[0];
-                                        //System.out.println("Added " + pattern + " - " + category.toString());
                                         trie.add(pattern, category);
                                         prev_tab_count = tabCount;
                                 }else{
@@ -58,7 +56,6 @@ public class RID {
                                 // add an item to trie
                                 wordcount++;
                                 String pattern = line.trim().split(" ")[0];
-                                //System.out.println("Added " + pattern + " - " + category.toString());
                                 trie.add(pattern, category);
                                 prev_tab_count = tabCount;
                         }
@@ -72,7 +69,7 @@ public class RID {
             String[] tokens = buffer.trim().split(" ");
             Result result = new Result();
             for(String token: tokens){
-                Category category = dictionary.search(token);
+                Category category = dictionary.search(token.toLowerCase());
                 if (category != null){
                     result.addCategory(category, token);
                 }

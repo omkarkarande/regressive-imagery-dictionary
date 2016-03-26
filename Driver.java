@@ -4,7 +4,8 @@ public class Driver {
                 RID rid = new RID();
                 try{
                         Trie<Category> dictionary = rid.loadDictionaryFromFile(args[0]);
-                        Result result = rid.analyzeText("ambrosial", dictionary);
+                        //System.out.println(dictionary.search("ambrosia").toString());
+                        Result result = rid.analyzeText("ambrosial CONSTIPATION", dictionary);
                         System.out.println(result.toString());
                 }catch(IOException ex) {
                         ex.printStackTrace();
