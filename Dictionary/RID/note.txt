@@ -1,0 +1,1 @@
+RID.CAT modified to add more verbose categories

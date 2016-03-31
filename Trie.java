@@ -1,21 +1,22 @@
 import java.util.HashMap;
 
-class TrieNode<T>{
+class TrieNode<T> {
         private char data;
-        private HashMap<Character,TrieNode<T> > children;
+        private HashMap<Character, TrieNode<T> > children;
         private boolean terminator = false;
         private T endpoint;
+
         //constructor to initialize root node
-        public TrieNode(){
+        public TrieNode() {
         }
 
         //constructor to initialize a data node
-        public TrieNode(char letter){
+        public TrieNode(char letter) {
                 this.data = letter;
         }
 
         //adds a child node to the current node
-        public void addChild(TrieNode<T> child){
+        public void addChild(TrieNode<T> child) {
                 if (this.children == null) {
                         this.children = new HashMap<Character, TrieNode<T> >();
                 }
@@ -23,42 +24,49 @@ class TrieNode<T>{
         }
 
         //checks if the node is a leaf node
-        public boolean isLeaf(){
+        public boolean isLeaf() {
                 if (this.children == null) {
                         return true;
                 }
                 return false;
         }
 
-        public void setTerminator(T endpoint){
+        //get the Endpoint
+        public T getEndpoint() {
+                return this.endpoint;
+        }
+
+        //check if the node is a terminator for the path
+        public boolean isTerminator() {
+                return this.terminator;
+        }
+
+        //sets the node as a terminator
+        public void setTerminator(T endpoint) {
                 this.terminator = true;
                 this.endpoint = endpoint;
         }
 
-        public T getEndpoint(){
-                return this.endpoint;
-        }
-
-        public boolean isTerminator(){
-                return this.terminator;
-        }
-
-        public boolean isRoot(){
-                if ((int)this.data == 0) {
+        //check if the node is Root of the Trie
+        public boolean isRoot() {
+                if ((int) this.data == 0) {
                         return true;
                 }
                 return false;
         }
 
-        public char getLetter(){
+        //getter for the data item of the node
+        public char getLetter() {
                 return this.data;
         }
 
-        public HashMap<Character, TrieNode<T> > getChildren(){
+        //returns a map of all the children of the node
+        public HashMap<Character, TrieNode<T> > getChildren() {
                 return this.children;
         }
 
-        public TrieNode<T> hasChild(char letter){
+        //checks if the node has a particular child
+        public TrieNode<T> hasChild(char letter) {
                 if (this.children != null) {
                         return this.children.get(letter);
                 }
@@ -67,19 +75,24 @@ class TrieNode<T>{
 
 }
 
-public class Trie<T>{
+public class Trie<T> {
 
+        //stores the ROOT of the trie
         private TrieNode<T> ROOT;
 
-        public Trie(){
+        //creates a new trie with a root element
+        public Trie() {
                 this.ROOT = new TrieNode<T>();
         }
 
-        public void add(String pattern, T category){
-                pattern = pattern.toLowerCase();
+        //adds an item to the trie
+        //adds the T item to the leaf at the terminator
+        public void add(String pattern, T category) {
+
                 TrieNode<T> parent = ROOT;
                 TrieNode<T> current = ROOT;
-                //loop through all the letter and find the common parent
+
+                //loop through all the letters and find the common parent
                 boolean createBranch = false;
                 for (int i = 0; i < pattern.length(); i++) {
                         current = parent.hasChild(pattern.charAt(i));
@@ -92,51 +105,52 @@ public class Trie<T>{
                                 }
                                 parent.setTerminator(category);
                                 break;
-                        }else{
+                        } else {
                                 parent = current;
                         }
                 }
 
-                if (!createBranch){
-                    if (!parent.isTerminator() || !parent.isLeaf()){
-                        parent.setTerminator(category);
-                    }
+                if (!createBranch) {
+                        if (!parent.isTerminator() || !parent.isLeaf()) {
+                                parent.setTerminator(category);
+                        }
                 }
         }
 
-        public T search(String pattern){
+        //Search for a pattern in the Trie
+        public T search(String pattern) {
                 TrieNode<T> node = this.ROOT;
-                for (int i = 0; i<pattern.length(); i++) {
+                for (int i = 0; i < pattern.length(); i++) {
+
+                        if (node.hasChild('*') != null){
+                            return node.hasChild('*').getEndpoint();
+                        }
 
                         //check if letter in nodes children
-                        if (node.hasChild(pattern.charAt(i)) != null) {
+                        if(node.hasChild(pattern.charAt(i)) != null) {
                                 node = node.hasChild(pattern.charAt(i));
                         }else{
-                                if (node.hasChild('*') != null) {
-                                        return node.hasChild('*').getEndpoint();
-                                }else{
-                                        return null;
-                                }
+                                return null;
                         }
                 }
 
                 //check if terminating node
                 if (node.isTerminator() || node.isLeaf()) {
                         return node.getEndpoint();
-                }else{
+                } else {
                         if (node.hasChild('*') != null) {
                                 return node.hasChild('*').getEndpoint();
-                        }else{
+                        } else {
                                 return null;
                         }
                 }
         }
 
-        public void printTrie(){
+        public void printTrie() {
                 printTrie(this.ROOT, "");
         }
 
-        private void printTrie(TrieNode<T> node, String word){
+        private void printTrie(TrieNode<T> node, String word) {
                 //DFS traversal of the trie printing all words
                 if (node != null) {
                         if (!node.isRoot()) {
@@ -150,7 +164,7 @@ public class Trie<T>{
 
                         HashMap<Character, TrieNode<T> > children = node.getChildren();
                         if (children != null) {
-                                for(TrieNode<T> child : children.values()) {
+                                for (TrieNode<T> child : children.values()) {
                                         printTrie(child, word);
                                 }
                         }

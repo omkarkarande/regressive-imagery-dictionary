@@ -10,10 +10,7 @@ public class RID {
                 String line = null;
                 int prev_tab_count = 0;
                 Category category = new Category();
-                int linecount = 0;
-                int wordcount = 0;
                 while((line = input.readLine()) != null) {
-                        linecount++;
                         int tabCount = tabCount(line);
 
                         if(tabCount == 0) {
@@ -35,9 +32,8 @@ public class RID {
                         if (tabCount == 2) {
                                 //could be a category or a pattern
                                 if(line.contains("(")) {
-                                        wordcount++;
                                         // add an item to trie
-                                        String pattern = line.trim().split(" ")[0];
+                                        String pattern = line.trim().split(" ")[0].toLowerCase();
                                         trie.add(pattern, category);
                                         prev_tab_count = tabCount;
                                 }else{
@@ -54,13 +50,11 @@ public class RID {
 
                         if (tabCount == 3) {
                                 // add an item to trie
-                                wordcount++;
-                                String pattern = line.trim().split(" ")[0];
+                                String pattern = line.trim().split(" ")[0].toLowerCase();
                                 trie.add(pattern, category);
                                 prev_tab_count = tabCount;
                         }
                 }
-
                 return trie;
         }
         //analyze text
